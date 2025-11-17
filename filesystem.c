@@ -45,20 +45,22 @@ dir_node *root_dir(void *node) {//returns a pointer to the highest-level directo
 	//check if input node is NULL
 	if(node == NULL) return NULL;
 
-	//declare a pointer (current_dir) that will traverse up to the root
+	//Create a pointer to traverse up to the root directory
 	dir_node *current_dir;
 
-	//Check to see if it is a file node or directory node
-	//if it is a file node, start from the parent directory
+	//create a file_node pointer
 	file_node *f = (file_node *)node;
-	if(f->size >=0){
-		current_dir = f->parent;
-	}else{//node is already a directory, so starts there
-		current_dir = (dir_node *)node;
 
-	}//traverse up until the root directory is reached(parent == NULL)
-	while(current_dir->parent != NULL){
-		current_dir = current_dir->parent;
+	//If the node is a file, start from parent directory
+	if(f->parent){
+		current_dir = f->parent;
+	}else{//if the node is a directory, start from the directory
+		current_dir = (dir_node *)node;
+	}
+
+	//traverse up until reaching the root
+	while(current_dir->parent){
+		current_dir = current_dir ->parent;
 
 	}//return the root directory 
 	return current_dir;
